@@ -1,3 +1,4 @@
+<!-- Comment Added -->
 <apex:component controller="SiteLoginController" id="loginComponent">
   <apex:form id="loginForm" forceSSL="true">
     <apex:outputPanel layout="block">
