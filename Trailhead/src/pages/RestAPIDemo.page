@@ -1,0 +1,104 @@
+<apex:page standardStylesheets="false" showChat="false" showHeader="false" sidebar="false">
+  <html ng-app="loginPage">
+    <head>
+        <title>Search Results</title>
+        <style>
+        .rightSidePanel .T4{
+            text-transform:  uppercase;
+        }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>       
+        <script>
+            var app = angular.module('loginPage', []);// edited by kv 01/20/2017
+
+
+app.config(function ($httpProvider) {
+  $httpProvider.defaults.headers.common = {};
+  $httpProvider.defaults.headers.post = {};
+  $httpProvider.defaults.headers.put = {};
+  $httpProvider.defaults.headers.patch = {};
+});
+
+app.controller('searchTableController', searchTableController);
+
+function searchTableController($scope, $http, myService) {
+
+    $scope.array = 'My Name';
+    /*myService.getFoos().then(function(foos) {
+        console.log(foos);
+        $scope.foos = foos;
+    });*/
+    
+    
+    $http.post(
+    "https://login.salesforce.com/services/oauth2/token?grant_type=password&client_id=3MVG9YDQS5WtC11pXVCDWtABZJE25iHmy5fa9SU7Il63muKrgf7iu_C2j.j7BoZVz4MhWTeEDl9ke3_gDto2W&redirect_uri=https://www.google.com&client_secret=3829329295188232561&username=trialuser101@metacube.com&password=Welcome@123vBPon37iMXZxiZbDPDbYvN1Q", 
+    {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                    'Access-Control-Allow-Origin' : '*'}
+    }).success(function(responseData) {
+        $scope.loginRespose = responseData;
+        console.log(responseData);
+        console.log(responseData.access_token);
+        var accountName = 'Test';
+
+        var accountInfo = {
+                "Name" :accountName
+        }
+        var accountInfoJson = JSON.stringify(accountInfo);
+        
+        
+        var res = {  'Authorization': 'Bearer ' + responseData.access_token, // OAuth 
+                     'Content-Type': 'application/json',
+                      //'Content-Length': '0',
+                      'Accept': 'application/json',
+                        'Access-Control-Allow-Origin' : '*'
+                            };
+    
+  
+        $http.post("https://ap4.salesforce.com/services/data/v20.0/sobjects/Account/",
+                    accountInfoJson, { 
+            headers : res
+        }).success(function(responseData) {
+            console.log('second response');
+            
+            
+            console.log(responseData);
+            //do stuff with response
+        }).error(function(data, status, headers, config) {
+            console.log( "failure message: " + JSON.stringify({data: data}));
+        });
+        
+        //do stuff with response
+    }).error(function(data, status, headers, config) {
+        console.log( "failure message: " + JSON.stringify({data: data}) + "Status: " + status);
+    });;
+    
+    
+    
+
+};
+
+
+app.factory('myService', function($http) {
+   return {
+        getFoos: function() {
+            //return the promise directly.
+            return $http.get('/foos')
+               .then(function(result) {
+                    //resolve the promise as the data
+                    return result.data;
+                });
+        }
+   }
+});
+        </script> 
+        
+              
+    </head>
+    <body data-ng-controller="searchTableController">
+        {{loginRespose}}
+    </body>
+
+</html>
+</apex:page>

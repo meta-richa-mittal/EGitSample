@@ -1,0 +1,20 @@
+<apex:page showHeader="false" sidebar="false">
+  <html>
+      <head>
+          <link REL="SHORTCUT ICON" HREF="{!URLFOR($Resource.FavIcon)}"/> 
+          <style>
+              html, body {
+                  width: 100%;
+                  height: 100%;
+              }
+              .background_image {
+                  background-size: 100% 100%;
+              }
+          </style>
+      </head>
+      <body class="background_image"
+          style="background-image: url(https://c.ap2.content.force.com/servlet/servlet.ImageServer?id=01528000002B6YM&oid=00D28000001NbUL&lastMod=1471952493000)">
+          <img src="{!URLFOR($Resource.favicon)}"/>
+          </body>
+  </html>
+</apex:page>
