@@ -1,5 +1,5 @@
 <!-- Comment Added -->
-<apex:component controller="SiteLoginController" id="loginComponent">
+<apex:component controller="SiteLoginController" id="loginComponentId">
   <apex:form id="loginForm" forceSSL="true">
     <apex:outputPanel layout="block">
       <apex:pageMessages id="error"/>
